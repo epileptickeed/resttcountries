@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@/shared/components/shared";
+import { NotFound } from "@/shared/components/shared/not-found";
 import { Title } from "@/shared/components/ui";
 import useAllFlags from "@/shared/hooks/useAllFlags";
 
@@ -17,7 +18,7 @@ export default function CountryPage(name: any) {
   const country = data?.filter((item: any) => item.name.common === countryName);
   console.log(country);
   if (country.length === 0) {
-    return "No country found";
+    return <NotFound />;
   }
 
   return (

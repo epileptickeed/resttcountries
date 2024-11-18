@@ -5,9 +5,12 @@ import { RootState } from "../redux/store";
 
 export default function useAllFlags() {
   const { searchValue } = useSelector((state: RootState) => state.search);
+  const { pickedContinent } = useSelector(
+    (state: RootState) => state.continent
+  );
   const data = useQuery({
     queryKey: ["posts-2"],
-    queryFn: () => getAllFlags(searchValue),
+    queryFn: () => getAllFlags(searchValue, pickedContinent),
   });
   return data;
 }

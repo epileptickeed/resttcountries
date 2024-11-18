@@ -6,6 +6,7 @@ import { CountriesItem } from "./countries-item";
 import { cn } from "@/shared/utils/cn";
 import { useSelector } from "react-redux";
 import { RootState } from "@/shared/redux/store";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface Props {
   className?: string;
@@ -13,18 +14,35 @@ interface Props {
 
 export const Countries: React.FC<Props> = ({ className }) => {
   const { data, refetch } = useAllFlags();
+
+  // const inf = useInfiniteQuery({
+  //   queryKey: ["pages"],
+  //   queryFn: useAllFlags,
+  //   initialPageParam: 1,
+  //   getNextPageParam: (lastPage: any, allPages) => lastPage.nextCursor,
+  // });
+
+  // console.log(inf.data);
+
   const { searchValue } = useSelector((state: RootState) => state.search);
+  const { pickedContinent } = useSelector(
+    (state: RootState) => state.continent
+  );
 
   React.useEffect(() => {
     refetch();
-  }, [refetch, searchValue]);
+  }, [searchValue, refetch, data, pickedContinent]);
 
-  // console.log(data);
   if (!data) {
     return "Loading...";
   }
   return (
-    <div className={cn("flex flex-wrap justify-between gap-4", className)}>
+    <div
+      className={cn(
+        "flex flex-wrap items-center justify-center gap-8",
+        className
+      )}
+    >
       {data.map((item: any) => (
         <CountriesItem key={item.cca2} {...item} />
       ))}
